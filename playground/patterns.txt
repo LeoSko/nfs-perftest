@@ -1,0 +1,67 @@
+Write
+	This is a fairly simple test that simulates writing to a new file. Because of the need to 
+	create new metadata for the file, many times the writing of a new file can be slower 
+	than rewriting to an existing file. The file is written using records of a specific length 
+	(either specified by the user or chosen automatically by IOzone) until the total file 
+	length has been reached.
+Re-write
+	This test is similar to the write test but measures the performance of writing to a file 
+	that already exists. Since the file already exists and the metadata is present, it is 
+	commonly expected for the re-write performance to be greater than the write 
+	performance. This particular test opens the file, puts the file pointer at the beginning of 
+	the file, and then writes to the open file descriptor using records of a specified length 
+	until the total file size is reached. Then it closes the file which updates the 
+	metadata.
+Read
+	This test reads an existing file. It reads the entire file, one record at a time.
+Re-read
+	This test reads a file that was recently read. This test is useful because operating 
+	systems and file systems will maintain parts of a recently read file in cache. 
+	Consequently, re-read performance should be better than read performance because 
+	of the cache effects. However, sometimes the cache effect can be mitigated by making 
+	the file much larger than the amount of memory in the system.
+Random Read
+	This test reads a file with the accesses being made to random locations within the file. 
+	The reads are done in record units until the total reads are the size of the file. The 
+	performance of this test is impacted by many factors including the OS cache(s), the 
+	number of disks and their configuration, disk seek latency, and disk cache among 
+	others.
+Random Write
+	The random write test measures the performance when writing a file with the accesses 
+	being made to random locations with the file. The file is opened to the total file size and 
+	then the data is written in record sizes to random locations within the file.
+Backwards Read
+	This test measures the performance when writing and re-writing a particular spot with 
+	a file. The test is interesting because it can highlight “hot spot” capabilities within a file 
+	system and/or an OS. If the spot is small enough to fit into the various cache sizes; 
+	CPU data cache, TLB, OS cache, file system cache, etc., then the performance will be 
+	very good.
+Strided Read
+	This test reads a file in what is called a strided manner. For example, you could read 
+	data starting at a file offset of zero, for a length of 4 KB, then seek 200 KB forward, 
+	then read for 4 KB, then seek 200 KB, and so on. The constant pattern is important 
+	and the “distance” between the reads is called the stride (in this simple example it is 
+	200 KB). This access pattern is used by many applications that are reading certain 
+	data structures. This test can highlight interesting issues in file systems and storage 
+	because the stride could cause the data to miss any striping in a RAID configuration, 
+	resulting in poor performance.
+Fwrite
+	This test measures the performance of writing a file using a library function “fwrite()”. It 
+	is a binary stream function (examine the man pages on your system to learn more). 
+	Equally important, the routine performs a buffered write operation. This buffer is in 
+	user space (i.e. not part of the system caches). This test is performed with a record 
+	length buffer being created in a user-space buffer and then written to the file. This is 
+	repeated until the entire file is created. This test is similar to the “write” test in that it 
+	creates a new file, possibly stressing the metadata performance.
+Frewrite
+	This test is similar to the “rewrite” test but using the fwrite() library function. Ideally the 
+	performance should be better than “Fwrite” because it uses an existing file so the 
+	metadata performance is not stressed in this case.
+Fread
+	This is a test that uses the fread() library function to read a file. It opens a file, and 
+	reads it in record lengths into a buffer that is in user space. This continues until the 
+	entire file is read.
+Freread
+	This test is similar to the “reread” test but uses the “fread()” library function. It reads a 
+	recently read file which may allow file system or OS cache buffers to be used, 
+	improving performance.
