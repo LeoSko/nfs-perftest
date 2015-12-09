@@ -12,13 +12,51 @@ test_file=$local_dir/test.img
 mkdir $logdir
 
 sudo cp /etc/fstab /home/$uname/fstab
-for rsize in 1024 2048 4096 8192
+for rsize in 1024 4096 16384 65536 262144 1048576
 do
-	sudo cp /home/$uname/fstab /etc/fstab
-	echo "$sharedir $local_dir nfs rw,user,noauto,rsize=$rsize 0 0" | sudo tee --append /etc/fstab
-#	sudo umount $local_dir
-#	sudo mount -t nfs -O uid=1000,iosharset=utf-8,rsize=$rsize $sharedir $local_dir
-	sudo iozone -a -R -c $local_dir -f $test_file > $logdir/rs$rsize.log
+	for wsize in 1024 4096 16384 65536 262144 1048576
+	do
+		for actimeo in 1 5 30
+		do
+			for proto in tcp udp
+			do
+				for nfsvers in 3 4
+				do
+					for lock in lock nolock
+					do
+						for cto in cto nocto
+						do
+							for acl in acl noacl
+							do
+								for rdirplus in rdirplus nordirplus
+								do
+									for sec in sys none
+									do
+										#sudo cp /home/$uname/fstab /etc/fstab
+										#echo "$sharedir $local_dir nfs rw,rsize=$rsize,wsize=$wsize,actimeo=$actimeo,proto=$proto 0 0" | sudo tee --append /etc/fstab
+										sudo umount $local_dir
+										sudo mount.nfs $sharedir $local_dir -o rw,rsize=$rsize,wsize=$wsize,actimeo=$actimeo,proto=$proto,nfsvers=$nfsvers,$lock,$cto,$acl,$rdirplus,sec=$sec
+										filename=rs$rsize
+										filename+=ws$wsize
+										filename+=actimeo$actimeo
+										filename+=proto$proto
+										filename+=v$nfsvers
+										filename+=$lock
+										filename+=$cto
+										filename+=$acl
+										filename+=$rdirplus
+										filename+=$sec.log
+										currentlog=$logdir/$filename
+										sudo iozone -a -R -i 0 -i 1 -c -f -U $local_dir $test_file > $currentlog
+									done
+								done
+							done
+						done
+					done
+				done
+			done
+		done
+	done
 done
 sudo cp /home/$uname/fstab /etc/fstab
 
