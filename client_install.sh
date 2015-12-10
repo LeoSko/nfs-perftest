@@ -11,4 +11,4 @@ echo "Connecting to $remote_ip"
 mkdir $local_folder
 sudo apt-get update
 sudo apt-get -qq install nfs-kernel-server nfs-common
-sudo mount -t nfs -O uid=1000,iocharset=utf-8 $remote_folder $local_folder
+sudo mount.nfs 192.168.0.90:/home/leo/Share /home/leo/NFS -o rw,rsize=1024,wsize=1024,actimeo=1,proto=tcp,vers=4,lock,cto,acl,rdirplus,sec=none

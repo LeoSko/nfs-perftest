@@ -1,8 +1,8 @@
 #!/bin/bash
 sudo apt-get install -qq iozone3
-uname=$(whoami)
+uname=leo
 sharedir=$(df /home/$uname/NFS | cut -d " " -f 1 | tail -1)
-if [ -z "$sharedir" ]; then
+if [ "$sharedir" == "/dev/sda1" ]; then
 	echo "You have to mount NFS folder into /home/$uname/NFS to run this script"
 	exit 1
 fi
@@ -30,24 +30,31 @@ do
 							do
 								for rdirplus in rdirplus nordirplus
 								do
-									for sec in sys none
+									for sec in sys
 									do
 										#sudo cp /home/$uname/fstab /etc/fstab
 										#echo "$sharedir $local_dir nfs rw,rsize=$rsize,wsize=$wsize,actimeo=$actimeo,proto=$proto 0 0" | sudo tee --append /etc/fstab
 										sudo umount $local_dir
-										sudo mount.nfs $sharedir $local_dir -o rw,rsize=$rsize,wsize=$wsize,actimeo=$actimeo,proto=$proto,nfsvers=$nfsvers,$lock,$cto,$acl,$rdirplus,sec=$sec
+										sudo mount.nfs $sharedir $local_dir -o rw,rsize=$rsize,wsize=$wsize,actimeo=$actimeo,proto=$proto,vers=$nfsvers,$lock,$cto,$acl,$rdirplus,sec=$sec
 										filename=rs$rsize
-										filename+=ws$wsize
-										filename+=actimeo$actimeo
-										filename+=proto$proto
-										filename+=v$nfsvers
-										filename+=$lock
-										filename+=$cto
-										filename+=$acl
-										filename+=$rdirplus
-										filename+=$sec.log
+										filename+=_ws$wsize
+										filename+=_actimeo$actimeo
+										filename+=_proto$proto
+										filename+=_v$nfsvers
+										filename+=_$lock
+										filename+=_$cto
+										filename+=_$acl
+										filename+=_$rdirplus
+										filename+=_$sec.log
 										currentlog=$logdir/$filename
-										sudo iozone -a -R -i 0 -i 1 -c -f -U $local_dir $test_file > $currentlog
+										echo "Doing $filename"
+										check=$(sudo cat /proc/mounts | grep nfs)
+										echo "$check"
+										if [ -z "$check" ]; then
+											echo "err" >> $currentlog
+											continue
+										fi
+										sudo iozone -a -R -g 65536 -c -f -U $local_dir $test_file > $currentlog
 									done
 								done
 							done
