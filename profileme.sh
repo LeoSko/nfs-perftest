@@ -1,6 +1,6 @@
 #!/bin/bash
 sudo apt-get install -qq iozone3
-uname=leo
+uname=$(whoami)
 sharedir=$(df /home/$uname/NFS | cut -d " " -f 1 | tail -1)
 if [ "$sharedir" == "/dev/sda1" ]; then
 	echo "You have to mount NFS folder into /home/$uname/NFS to run this script"
