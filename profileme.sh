@@ -54,7 +54,7 @@ do
 											echo "err" >> $currentlog
 											continue
 										fi
-										sudo iozone -a -R -g 65536 -c -f -U $local_dir $test_file > $currentlog
+										sudo iozone -a -R -g -c -f $test_file | tee $currentlog
 									done
 								done
 							done
