@@ -95,22 +95,8 @@ int main(int argc, char **argv)
                                     {
                                         for (auto sec : security)
                                         {
-                                            /*string s(filename);
-                                            file = s+"log/rs"+rs+"_ws"+ws+"_actimeo"+act+"_proto"+pro+"_"+nfs+"_"+lk+"_"+ct+"_"+ac+"_"+rdir+"_"+sec+".log";
-
-
-                                            pFile = fopen(file.c_str(), "r");
-                                            if (pFile != NULL)
-                                            {
-                                                printf("%s\n",file.c_str());
-                                                //поиск инфы внутри файла
-
-
-
-                                                fclose(pFile);
-                                            }*/
                                             string s(filename);
-                                            file = s+"log/rs"+rs+"_ws"+ws+"_actimeo"+act+"_proto"+pro+"_"+nfs+"_"+lk+"_"+ct+"_"+ac+"_"+rdir+"_"+sec+".log";
+                                            file = s + "log/rs" + rs + "_ws" + ws + "_actimeo" +act + "_proto" + pro + "_" + nfs + "_" + lk + "_" + ct + "_" + ac + "_" + rdir + "_" + sec + ".log";
                                             ifstream fin(file);
                                             if(fin.is_open())
                                             {
@@ -147,9 +133,7 @@ int main(int argc, char **argv)
                                                                         params.p[8] = rdir;
                                                                         params.p[9] = sec;
                                                                         lowRes[i] = mp(params, perf);
-
                                                                     }
-
                                                                 }
                                                             }
 
@@ -175,19 +159,13 @@ int main(int argc, char **argv)
                                                                         params.p[8] = rdir;
                                                                         params.p[9] = sec;
                                                                         highRes[i] = mp(params, perf);
-
                                                                     }
-
                                                                 }
-
-
                                                             }
                                                             break;
                                                         }
                                                     }
-
                                                 }
-
                                                 fin.close();
                                             }
                                         }
@@ -207,7 +185,7 @@ int main(int argc, char **argv)
         printf("\t%s: perfomance=%ld ( for parameters: ",accessPatterns[i-1].c_str(), lowRes[i].second);
         for(int j=0;j<10;j++)
         {
-            printf("%s=%s ",nameParams[j].c_str(),lowRes[i].first.p[j].c_str());
+            printf("%s=%s ", nameParams[j].c_str(), lowRes[i].first.p[j].c_str());
         }
         printf(")\n");
     }
@@ -215,10 +193,10 @@ int main(int argc, char **argv)
     printf("\nfor files >=32Mb\n");
     for(int i=1;i<=13;i++)
     {
-        printf("\t%s: perfomance=%ld ( for parameters: ",accessPatterns[i-1].c_str(), lowRes[i].second);
+        printf("\t%s: perfomance=%ld ( for parameters: ",accessPatterns[i-1].c_str(), highRes[i].second);
         for(int j=0;j<10;j++)
         {
-            printf("%s=%s ",nameParams[j].c_str(),highRes[i].first.p[j].c_str());
+            printf("%s=%s ", nameParams[j].c_str(), highRes[i].first.p[j].c_str());
         }
         printf(")\n");
     }
