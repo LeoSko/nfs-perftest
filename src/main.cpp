@@ -74,7 +74,7 @@ int main(int argc, char **argv)
     }
 
     printf("%s\n", filename);
-    
+
     for (auto rs : rsize)
     {
         for (auto ws : wsize)
@@ -200,13 +200,14 @@ int main(int argc, char **argv)
             }
         }
     }
+
     printf("for files <32Mb\n");
     for(int i=1;i<=13;i++)
     {
-        printf("%s: perfomance=%ld (for parameters: ",accessPatterns[i-1].c_str(), lowRes[i].second);
+        printf("\t%s: perfomance=%ld ( for parameters: ",accessPatterns[i-1].c_str(), lowRes[i].second);
         for(int j=0;j<10;j++)
         {
-            printf("%s ",lowRes[i].first.p[j].c_str());
+            printf("%s=%s ",nameParams[j].c_str(),lowRes[i].first.p[j].c_str());
         }
         printf(")\n");
     }
@@ -214,10 +215,10 @@ int main(int argc, char **argv)
     printf("\nfor files >=32Mb\n");
     for(int i=1;i<=13;i++)
     {
-        printf("%s: perfomance=%ld (for parameters: ",accessPatterns[i-1].c_str(), lowRes[i].second);
+        printf("\t%s: perfomance=%ld ( for parameters: ",accessPatterns[i-1].c_str(), lowRes[i].second);
         for(int j=0;j<10;j++)
         {
-            printf("%s ",highRes[i].first.p[j].c_str());
+            printf("%s=%s ",nameParams[j].c_str(),highRes[i].first.p[j].c_str());
         }
         printf(")\n");
     }
