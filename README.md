@@ -6,6 +6,8 @@
 
 Более подробную информацию о текущем состоянии проекта можно прочитать на [Wiki-странице](https://github.com/LeoSko/nfs-perftest/wiki) репозитария, там же можно найти полученные результаты и выводы по работе.
 
+Подобных исследований в данной области (оптимизация NFS с помощью параметров протокола) найти не удалось, что делает эту работу более интересной в научном смысле.
+
 This repo was created for SPb ETU **Storages** course, where we create a tool for testing NFS.
 
 Created by students of group 2381:
